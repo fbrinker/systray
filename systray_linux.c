@@ -106,7 +106,7 @@ gboolean do_add_or_update_menu_item(gpointer data) {
 			gtk_menu_item_set_label(GTK_MENU_ITEM(item->menu_item), mii->title);
 
 			if (mii->isCheckable) {
-				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item->menu_item), mii->checked == 1);
+				//gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item->menu_item), mii->checked == 1);
 			}
 			break;
 		}

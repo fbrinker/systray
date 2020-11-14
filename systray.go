@@ -151,7 +151,7 @@ func (item *MenuItem) AddSubMenuItem(title string, tooltip string) *MenuItem {
 func (item *MenuItem) AddSubMenuItemCheckbox(title string, tooltip string, checked bool) *MenuItem {
 	child := newMenuItem(title, tooltip, item)
 	child.isCheckable = true
-	item.checked = checked
+	child.checked = checked
 	child.update()
 	return child
 }
