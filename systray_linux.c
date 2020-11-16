@@ -23,6 +23,7 @@ typedef struct {
 	short disabled;
 	short checked;
 	short isCheckable;
+	long signalHandlerId;
 } MenuItemInfo;
 
 void registerSystray(void) {
@@ -106,7 +107,9 @@ gboolean do_add_or_update_menu_item(gpointer data) {
 			gtk_menu_item_set_label(GTK_MENU_ITEM(item->menu_item), mii->title);
 
 			if (mii->isCheckable) {
+				g_signal_handler_block(GTK_CHECK_MENU_ITEM(item->menu_item), mii->signalHandlerId);
 				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item->menu_item), mii->checked == 1);
+				g_signal_handler_unblock(GTK_CHECK_MENU_ITEM(item->menu_item), mii->signalHandlerId);
 			}
 			break;
 		}
@@ -123,7 +126,7 @@ gboolean do_add_or_update_menu_item(gpointer data) {
 		}
 		int *id = malloc(sizeof(int));
 		*id = mii->menu_id;
-		g_signal_connect_swapped(G_OBJECT(menu_item), "activate", G_CALLBACK(_systray_menu_item_selected), id);
+		mii->signalHandlerId = g_signal_connect_swapped(G_OBJECT(menu_item), "activate", G_CALLBACK(_systray_menu_item_selected), id);
 
 		if (mii->parent_menu_id == 0) {
 			gtk_menu_shell_append(GTK_MENU_SHELL(global_tray_menu), menu_item);
